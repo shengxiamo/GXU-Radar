@@ -8,6 +8,8 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)  # 确保添加了这一行
+find_package(cv_bridge REQUIRED)
 find_package(OpenCV REQUIRED)
 
 add_executable(usb_camera_node src/usb_camera_node.cpp
@@ -16,10 +18,12 @@ target_include_directories(usb_camera_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 target_compile_features(usb_camera_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
-ament_target_dependencies(
-  usb_camera_node
-  "rclcpp"
-  "OpenCV"
+
+ament_target_dependencies(usb_camera_node
+        rclcpp
+        sensor_msgs  # 确保添加了这一行
+        cv_bridge
+        OpenCV
 )
 
 install(TARGETS usb_camera_node
